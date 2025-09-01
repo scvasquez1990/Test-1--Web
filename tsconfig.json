@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    // Input / Output
+    "rootDir": "./src",
+    "outDir": "./public/dist",
+
+    // Target modern browsers (ES2020 is safe for MVVM + SPA)
+    "target": "ES2020",
+    "module": "esnext",
+    "moduleResolution": "Bundler",
+
+    // Type safety
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+
+    // Debugging support
+    "sourceMap": true
+  },
+  "include": ["src"]
+}

@@ -1,0 +1,13 @@
+/* subtle row separators like the screenshot, no header underline */
+  .employee-table thead th {
+    border-bottom: 0 !important;
+    letter-spacing: 0.02em;
+  }
+  .employee-table tbody td {
+    border-top: 1px solid #e9ecef;
+  }
+  /* keep actions visually aligned right (matches screenshot) */
+  .employee-table tbody td:last-child {
+    text-align: end;
+    padding-right: 1rem;
+  }
