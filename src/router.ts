@@ -1,7 +1,6 @@
 // src/router.ts
 import { EmployeeListViewModel } from "./viewmodels/EmployeeListViewModels.js";
 import { EmployeeFormViewModel } from "./viewmodels/EmployeeFormViewModel.js";
-import { EmployeeDeleteViewModel } from "./viewmodels/EmployeeDeleteViewModel.js";
 
 export class Router {
   private routes: Record<string, string> = {};
@@ -50,12 +49,12 @@ export class Router {
           }
           break;
 
-        case "delete":
+        /*case "delete":
           {
             const vm = new EmployeeDeleteViewModel();
             vm.init();
           }
-          break;
+          break;*/
       }
     } else {
       location.hash = this.defaultRoute;

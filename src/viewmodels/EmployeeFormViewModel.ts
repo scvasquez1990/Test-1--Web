@@ -22,6 +22,13 @@ export class EmployeeFormViewModel {
     });
   }
 
+  private isValidGuid(value: string): boolean {
+    if (!value) return true;
+    const guidRegex =
+      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+    return guidRegex.test(value);
+  }
+
   constructor() {
     this.service = new EmployeeService();
     this.formElement = document.getElementById(
@@ -50,11 +57,16 @@ export class EmployeeFormViewModel {
     // Apply HTML5 constraints programmatically (in case markup wasn’t updated)
     this.firstNameInput.required = true;
     this.lastNameInput.required = true;
-    this.ssnInput.maxLength = 10; // “less than 11”
-    this.ssnInput.required = true; // SSN is required
+    this.ssnInput.maxLength = 10;
+    this.ssnInput.required = true;
 
     // Live validation cleanup while typing
-    [this.firstNameInput, this.lastNameInput, this.ssnInput].forEach((el) => {
+    [
+      this.firstNameInput,
+      this.lastNameInput,
+      this.ssnInput,
+      this.personIdInput,
+    ].forEach((el) => {
       el.addEventListener("input", () => {
         el.setCustomValidity("");
         el.classList.remove("is-invalid");
@@ -78,7 +90,7 @@ export class EmployeeFormViewModel {
     if (id) {
       this.loadEmployee(id);
     } else {
-      this.updateBreadcrumb(); // set "New Employee" text
+      this.updateBreadcrumb();
     }
 
     // Submit handler with validation
@@ -88,7 +100,6 @@ export class EmployeeFormViewModel {
       this.formElement!.classList.add("was-validated");
 
       if (!isValid) {
-        //this.formElement!.reportValidity();
         return;
       }
 
@@ -104,7 +115,7 @@ export class EmployeeFormViewModel {
     const first = (this.firstNameInput.value || "").trim();
     const last = (this.lastNameInput.value || "").trim();
     const ssn = (this.ssnInput.value || "").trim();
-
+    const personId = (this.personIdInput.value || "").trim();
     // First Name required
     this.firstNameInput.setCustomValidity("");
     if (!first) {
@@ -139,6 +150,18 @@ export class EmployeeFormViewModel {
       this.ssnInput.classList.remove("is-invalid");
     }
 
+    // PersonID must be valid GUID if provided
+    this.personIdInput.setCustomValidity("");
+    if (!this.isValidGuid(personId)) {
+      this.personIdInput.setCustomValidity(
+        "Invalid GUID format (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)"
+      );
+      this.personIdInput.classList.add("is-invalid");
+      valid = false;
+    } else {
+      this.ssnInput.classList.remove("is-invalid");
+    }
+
     return valid;
   }
 
@@ -146,9 +169,15 @@ export class EmployeeFormViewModel {
 
   private updateBreadcrumb(): void {
     if (!this.breadcrumbElement) return;
-    const first = (this.firstNameInput?.value || "").trim() || "New";
-    const last = (this.lastNameInput?.value || "").trim() || "Employee";
-    this.breadcrumbElement.textContent = `${first} ${last}`;
+
+    const first = (this.firstNameInput?.value || "").trim();
+    const last = (this.lastNameInput?.value || "").trim();
+
+    if (!first && !last) {
+      this.breadcrumbElement.textContent = "";
+    } else {
+      this.breadcrumbElement.textContent = `${first} ${last}`.trim();
+    }
   }
 
   // ————— Data load/save —————

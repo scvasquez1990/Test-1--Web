@@ -69,7 +69,6 @@ export class EmployeeListViewModel {
             this.currentRowEl.parentElement.removeChild(this.currentRowEl);
           }
           this.deleteModal?.hide();
-          alert("Employee deleted successfully.");
         } catch (e: any) {
           alert("Failed to delete employee: " + (e?.message ?? String(e)));
         } finally {
