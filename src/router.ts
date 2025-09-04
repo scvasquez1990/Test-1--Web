@@ -48,13 +48,6 @@ export class Router {
             vm.init();
           }
           break;
-
-        /*case "delete":
-          {
-            const vm = new EmployeeDeleteViewModel();
-            vm.init();
-          }
-          break;*/
       }
     } else {
       location.hash = this.defaultRoute;
