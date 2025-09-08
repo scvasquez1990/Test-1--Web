@@ -29,6 +29,12 @@ export class EmployeeFormViewModel {
     return guidRegex.test(value);
   }
 
+  private generateEmployeeNo(): string {
+    const randomPart = Math.floor(1000 + Math.random() * 9000);
+    const timestampPart = Date.now().toString().slice(-5); 
+    return `EMP-${timestampPart}${randomPart}`;
+  }
+
   constructor() {
     this.service = new EmployeeService();
     this.formElement = document.getElementById(
@@ -227,7 +233,7 @@ export class EmployeeFormViewModel {
 
       LastUpdatedBy: "admin",
       LastUpdatedDate: nowIso,
-      EmployeeNo: "00002",
+      EmployeeNo: this.generateEmployeeNo(),
       EmploymentStartDate: nowIso,
       EmploymentEndDate: null,
     };
