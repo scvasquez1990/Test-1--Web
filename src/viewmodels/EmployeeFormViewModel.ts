@@ -87,9 +87,12 @@ export class EmployeeFormViewModel {
     // If editing, load employee data
     const params = new URLSearchParams(location.hash.split("?")[1]);
     const id = params.get("id");
+
+
     if (id) {
       this.loadEmployee(id);
     } else {
+      this.personIdInput.readOnly = false;
       this.updateBreadcrumb();
     }
 
@@ -192,6 +195,8 @@ export class EmployeeFormViewModel {
       this.lastNameInput.value = emp.LastName ?? "";
       this.personIdInput.value = emp.PersonID ?? "";
       this.activeInput.checked = emp.Status === 1;
+
+      this.personIdInput.readOnly = true;
 
       this.updateBreadcrumb();
       this.formElement.classList.remove("was-validated");
