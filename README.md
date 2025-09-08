@@ -37,7 +37,7 @@ A single-page HR app that lets users list, create, edit, and delete employees.
 
 ## 4) Build TypeScript
 
-- npm run build
+- npx tsc --build
 
 ## 5) Serve the app (public is the server root)
 
